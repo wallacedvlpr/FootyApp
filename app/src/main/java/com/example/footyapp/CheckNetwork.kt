@@ -5,9 +5,10 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import android.util.Log
+import androidx.lifecycle.LiveData
 import java.lang.Exception
 
-class CheckNetwork private constructor(private val context: Context){
+class CheckNetwork private constructor(private val context: Context): LiveData<Boolean>() {
     val connectivityManager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val request = NetworkRequest.Builder().build()
 
