@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 class SplashScreen : AppCompatActivity() {
-
+    //Lets see
     // This is the loading time of the splash screen
     private val splashTimeOut:Long = 3000 // 1 sec
     private val handler = Handler(Looper.getMainLooper())
