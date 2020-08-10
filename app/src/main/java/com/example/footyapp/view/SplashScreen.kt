@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.Observer
 import com.example.footyapp.MainActivity
+import com.example.footyapp.NetworkConnection
 import com.example.footyapp.R
 
 class SplashScreen : AppCompatActivity() {
@@ -33,6 +35,16 @@ class SplashScreen : AppCompatActivity() {
         //}
         //Splash Screen to Show for 3 seconds
         handler.postDelayed(runnable, splashTimeOut)
+//        val networkConnection = NetworkConnection.newInstance(applicationContext)
+//        networkConnection.observe(this, Observer { isConnected ->
+//            if (isConnected){
+//                //
+//            } else {
+//                //
+//            }
+//
+//        })
+
     }
 
     override fun onResume() {
