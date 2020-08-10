@@ -1,13 +1,10 @@
 package com.example.footyapp
 
-import android.content.BroadcastReceiver
+
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkInfo
-import android.net.NetworkRequest
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import java.lang.Exception
@@ -18,6 +15,7 @@ class NetworkConnection private constructor(private val context: Context): LiveD
     private val connectivityManager: ConnectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     lateinit var networkCallback: ConnectivityManager.NetworkCallback
+
     override fun onActive() {
         super.onActive()
         connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())
