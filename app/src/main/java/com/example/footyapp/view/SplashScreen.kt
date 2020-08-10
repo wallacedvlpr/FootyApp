@@ -31,10 +31,10 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        CheckNetwork(this).registerNetworkCallback()
-        if (CheckNetwork.isConnected){
-            tv_no_connection.visibility = TextView.VISIBLE
-        }
+        //CheckNetwork(this).registerNetworkCallback()
+        //if (CheckNetwork.isConnected){
+            //tv_no_connection.visibility = TextView.VISIBLE
+        //}
     }
 
     override fun onResume() {
