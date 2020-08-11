@@ -18,6 +18,7 @@ class NetworkConnection private constructor(private val context: Context): LiveD
 
     override fun onActive() {
         super.onActive()
+        updateConnection()
         connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())
     }
 
@@ -60,7 +61,12 @@ class NetworkConnection private constructor(private val context: Context): LiveD
 
     //Static variable
     companion object{
-        fun newInstance(context: Context):  NetworkConnection = NetworkConnection(context)
-
+        var networkConnection: NetworkConnection? = null
+        fun getInstance(context: Context):  NetworkConnection? {
+            if(networkConnection == null) {
+                networkConnection = NetworkConnection(context)
+            }
+            return networkConnection
+        }
     }
 }
