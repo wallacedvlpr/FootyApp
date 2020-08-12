@@ -47,7 +47,7 @@ class NetworkConnection private constructor(private val context: Context): LiveD
         }
         catch (e: Exception)
         {
-            Log.e("CheckNetwork", "NetworkCallback object was created")
+            Log.e("CheckNetwork", "NetworkCallback object was not created")
             e.printStackTrace()
             throw e
         }
