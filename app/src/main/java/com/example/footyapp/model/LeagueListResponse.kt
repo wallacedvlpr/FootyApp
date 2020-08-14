@@ -6,7 +6,7 @@ package com.example.footyapp.model
  */
 data class LeagueListResponse(
     val success: Boolean,
-    val pager: List<Pager>,
+    val pager: Pager,
     val data: List<League>
 )
 

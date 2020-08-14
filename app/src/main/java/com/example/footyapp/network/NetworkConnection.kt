@@ -1,4 +1,4 @@
-package com.example.footyapp
+package com.example.footyapp.network
 
 
 import android.content.Context
@@ -6,7 +6,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkInfo
 import android.util.Log
+import android.view.View
+import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import java.lang.Exception
 
 class NetworkConnection private constructor(private val context: Context): LiveData<Boolean>() {
@@ -18,12 +22,16 @@ class NetworkConnection private constructor(private val context: Context): LiveD
 
     override fun onActive() {
         super.onActive()
-        updateConnection()
+        //updateConnection()
         connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())
     }
 
     override fun onInactive() {
         super.onInactive()
+        connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
+    }
+
+    fun close(){
         connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
     }
 
@@ -59,14 +67,34 @@ class NetworkConnection private constructor(private val context: Context): LiveD
         postValue(activeNet?.isConnected == true)
     }
 
+    fun testConnection(l: LifecycleOwner,
+                       tv: TextView,
+                       function: () -> Unit ){
+        networkConnection?.let {
+            it.observe(l, Observer { isConnected ->
+                if (!isConnected) {
+                    // Disable views
+                    tv.visibility = View.VISIBLE
+                } else {
+                    // Enable views
+                    tv.visibility = View.GONE
+                    function.invoke()
+                }
+            })
+        }
+    }
     //Static variable
     companion object{
         var networkConnection: NetworkConnection? = null
         fun getInstance(context: Context):  NetworkConnection? {
             if(networkConnection == null) {
-                networkConnection = NetworkConnection(context)
+                networkConnection =
+                    NetworkConnection(context)
             }
             return networkConnection
+        }
+        fun unRegister(){
+            networkConnection?.close()
         }
     }
 }

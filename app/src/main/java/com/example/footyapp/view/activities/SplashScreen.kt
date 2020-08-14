@@ -1,4 +1,4 @@
-package com.example.footyapp.view
+package com.example.footyapp.view.activities
 
 
 import android.content.Intent

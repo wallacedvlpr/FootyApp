@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tv_no_connection"
+        android:id="@+id/tv_no_connection_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tv_no_internet_connection"

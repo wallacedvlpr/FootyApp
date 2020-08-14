@@ -3,12 +3,13 @@ package com.example.footyapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.Observer
-import com.example.footyapp.model.FootyNetworkCall
+import com.example.footyapp.network.FootyNetworkCall
 import com.example.footyapp.model.LeagueListResponse
-import com.example.footyapp.view.ViewPagerAdapter
+import com.example.footyapp.model.LeagueTeamsResponse
+import com.example.footyapp.network.NetworkConnection
+import com.example.footyapp.view.fragments.ClubsFragment
+import com.example.footyapp.view.fragments.LeaguesFragment
+import com.example.footyapp.view.ViewPager.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -18,28 +19,19 @@ import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
+    private val leaguesFragment = LeaguesFragment.newInstance()
+    private val clubsFragment = ClubsFragment.newInstance()
+    private val leaguesFragment3 = LeaguesFragment.newInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        testConnection()
-    }
-    private fun testConnection(){
-        //networkConnection Class
+        //network check
         val networkConnection = NetworkConnection.getInstance(applicationContext)
-        networkConnection?.let {
-            it.observe(this, Observer { isConnected ->
-                if (!isConnected) {
-                    tv_no_connection.visibility = View.VISIBLE
-                    unInit()
-                } else {
-                    tv_no_connection.visibility = View.GONE
-                    init()
-                    networkCalls()
-                }
-            })
-        }
+        networkConnection?.testConnection(this,
+            tv_no_connection_main
+        ) { init() }
     }
-    private fun networkCalls(){
+    private fun netCall1(){
         FootyNetworkCall.getRetrofit().getLeagues()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -49,27 +41,51 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onSubscribe(d: Disposable?) {
-                        //Todo
                     }
 
                     override fun onNext(t: LeagueListResponse) {
-                        if(t.success)
-                            Toast.makeText(this@MainActivity,
-                                t.data[0].name, Toast.LENGTH_LONG).show()
+                        leaguesFragment.getDataSet(t.data)
+                        leaguesFragment3.getDataSet(t.data)
                     }
 
                     override fun onError(e: Throwable?) {
                         Log.d("Home", e?.message?:"Error but null")
                     }
-
                 }
             )
     }
-    private fun unInit(){
-        pager.visibility = View.GONE
+
+    private fun netCall2(){
+        FootyNetworkCall.getRetrofit().getTeams(season_id = 2012)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                object : io.reactivex.rxjava3.core.Observer<LeagueTeamsResponse> {
+                    override fun onComplete() {
+                    }
+
+                    override fun onSubscribe(d: Disposable?) {
+                    }
+
+                    override fun onNext(t: LeagueTeamsResponse) {
+                        clubsFragment.getDataSet(t.data)
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        Log.d("Home", e?.message?:"Error but null")
+                    }
+                }
+            )
     }
     private fun init(){
-        pager.adapter = ViewPagerAdapter(this)
+        netCall1()
+        netCall2()
+        pager.adapter = ViewPagerAdapter(
+            this,
+            leaguesFragment,
+            clubsFragment,
+            leaguesFragment3
+        )
         pager.isUserInputEnabled = false
         TabLayoutMediator(tab_layout, pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
@@ -86,5 +102,10 @@ class MainActivity : AppCompatActivity() {
                     else ->   Exception("Error in the TabLayout").printStackTrace()
                 }
             }).attach()
+    }
+
+    override fun onBackPressed() {
+        finish()
+        super.onBackPressed()
     }
 }
