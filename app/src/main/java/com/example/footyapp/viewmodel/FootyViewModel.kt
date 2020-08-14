@@ -1,7 +1,6 @@
 package com.example.footyapp.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.network.FootyNetworkCall

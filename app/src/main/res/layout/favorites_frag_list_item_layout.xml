@@ -11,6 +11,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <TextView
+            android:id="@+id/tv_name_fav_frag_list_item"
+            android:layout_width="0dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

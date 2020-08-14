@@ -12,4 +12,5 @@
     <string name="table_header_losses">L</string>
     <string name="table_header_goals">Goals</string>
     <string name="table_header_pts">Pts</string>
+    <string name="tv_fav_list_favorites">Favorites</string>
 </resources>

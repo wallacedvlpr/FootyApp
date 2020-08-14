@@ -3,10 +3,12 @@ package com.example.footyapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import com.example.footyapp.network.FootyNetworkCall
 import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.model.LeagueTeamsResponse
 import com.example.footyapp.network.NetworkConnection
+import com.example.footyapp.view.fragments.FavoritesFragment
 import com.example.footyapp.view.fragments.ClubsFragment
 import com.example.footyapp.view.fragments.LeaguesFragment
 import com.example.footyapp.view.ViewPager.ViewPagerAdapter
@@ -21,7 +23,7 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity() {
     private val leaguesFragment = LeaguesFragment.newInstance()
     private val clubsFragment = ClubsFragment.newInstance()
-    private val leaguesFragment3 = LeaguesFragment.newInstance()
+    private val favoritesFragment = FavoritesFragment.newInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onNext(t: LeagueListResponse) {
                         leaguesFragment.getDataSet(t.data)
-                        leaguesFragment3.getDataSet(t.data)
                     }
 
                     override fun onError(e: Throwable?) {
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             this,
             leaguesFragment,
             clubsFragment,
-            leaguesFragment3
+            favoritesFragment
         )
         pager.isUserInputEnabled = false
         TabLayoutMediator(tab_layout, pager,

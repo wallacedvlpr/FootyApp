@@ -7,31 +7,96 @@
     android:layout_height="match_parent"
     tools:context=".view.DetailedClubActivity">
         <TextView
-            android:id="@+id/club_frag_list_item_name"
+            android:id="@+id/tv_no_connection_club_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_no_internet_connection"
+            android:textSize="18sp"
+            android:padding="2dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:background="@android:color/holo_red_light"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/club_detail_club_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:padding="?android:listPreferredItemPaddingLeft"
             tools:text="Manchester United FC"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/club_detail_founded"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_club_name"
+            app:layout_constraintStart_toEndOf="@id/club_detail_country"
+            android:textSize="16sp"
+            tools:text="1846"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            app:layout_constraintTop_toBottomOf="@id/club_frag_list_item_name"
+            android:id="@+id/club_detail_country"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_club_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:padding="?android:listPreferredItemPaddingLeft"
-            tools:text="Manchester United FC"
+            android:textSize="16sp"
+            tools:text="England"
+            android:paddingStart="4dp"
+            android:paddingEnd="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            app:layout_constraintTop_toBottomOf="@id/club_frag_list_item_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/club_detail_season"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_country"
+            app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:padding="?android:listPreferredItemPaddingLeft"
-            tools:text="Manchester United FC"
+            tools:text="Season 2019/2020"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/club_detail_wins"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_table_position"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/club_detail_draws"
+            android:textSize="16sp"
+            tools:text="Overall Wins: 15 "
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/club_detail_losses"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_table_position"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/club_detail_draws"
+            android:textSize="16sp"
+            tools:text="Overall Losses: 15"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/club_detail_draws"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_table_position"
+            app:layout_constraintStart_toEndOf="@id/club_detail_wins"
+            app:layout_constraintEnd_toStartOf="@id/club_detail_losses"
+            android:textSize="16sp"
+            tools:text="Overall Draws: 5"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/club_detail_table_position"
+            app:layout_constraintTop_toBottomOf="@id/club_detail_season"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16sp"
+            tools:text="Table Position 1"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>

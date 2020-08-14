@@ -73,12 +73,13 @@ class ClubsFragment private constructor(): Fragment(){
 
     inner class ClubItemViewHolder(itemView: View):
         RecyclerView.ViewHolder(itemView){
-        private val tvClubName: TextView = itemView.findViewById(R.id.club_frag_list_item_name)
+        private val tvClubName: TextView = itemView.findViewById(R.id.club_detail_club_name)
         fun onBind(c: ClubItem){
             tvClubName.text = c.english_name
             itemView.setOnClickListener {
                 val newIntent = Intent(activity, DetailedClubActivity::class.java)
                 activity?.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                newIntent.putExtra("Club_ID", c.id)
                 startActivity(newIntent)
             }
         }

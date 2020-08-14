@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
 import com.example.footyapp.network.NetworkConnection
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
@@ -17,7 +18,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_league.*
 
-class LeagueActivity : AppCompatActivity() {
+class LeagueActivity : AppCompatActivity(){
     lateinit var clubs: List<ClubItem>
     lateinit var table: TableLayout
     lateinit var leagueName: TextView
@@ -26,7 +27,6 @@ class LeagueActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_league)
         testConnection()
-
     }
 
     private fun testConnection(){
@@ -52,6 +52,7 @@ class LeagueActivity : AppCompatActivity() {
                         Log.i("LeagueActivity", t.data[0].country)
                         clubs = t.data.sortedWith(compareBy { it.table_position})
                         initTableLayout()
+                        initTableName("${t.data[0].country}'s Top League ")
                     }
 
                     override fun onError(e: Throwable?) {
@@ -64,8 +65,9 @@ class LeagueActivity : AppCompatActivity() {
         netCall(id)
         Log.d("League Activty", "$id, id")
     }
-    private fun initTableName(){
+    private fun initTableName(name: String){
         leagueName = findViewById(R.id.tv_league_name)
+        leagueName.text = name
     }
     private fun initTableLayout(){
         table = findViewById(R.id.league_activity_table_layout)

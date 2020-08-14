@@ -1,5 +1,6 @@
 package com.example.footyapp.network
 
+import com.example.footyapp.model.IndividualTeamResponse
 import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.model.LeagueTeamsResponse
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -42,11 +43,12 @@ interface FootyNetworkCall {
         @Query(value = "key")key: String="example",
         @Query(value = "season_id")season_id: Int,
         @Query(value= "include")include:String ="stats"): Observable<LeagueTeamsResponse>
-/*
-    @GET(value = "league-list")
-    fun getLeaguePlayers(
-        @Query(value = "key")key: String="example"): Observable<LeaguesListResponse>
 
+    @GET(value = "team")
+    fun getOneTeam(
+        @Query(value = "key")key: String="example",
+        @Query(value = "team_id")id: Int): Observable<IndividualTeamResponse>
+/*
     @GET(value = "league-list")
     fun getLeagueStats(
         @Query(value = "key")key: String="example"): Observable<LeaguesListResponse>
