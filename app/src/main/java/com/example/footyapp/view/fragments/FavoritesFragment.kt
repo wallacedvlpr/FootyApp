@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footyapp.R
 import com.example.footyapp.model.db.Favorites
-import com.example.footyapp.view.DetailedClubActivity
-import com.example.footyapp.view.activities.LeagueActivity
+import com.example.footyapp.view.activities.DetailedClubActivity
 import kotlinx.android.synthetic.main.favorites_frag_list_layout.*
 
 class FavoritesFragment private constructor(): Fragment() {

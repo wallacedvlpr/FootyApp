@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.DetailedClubActivity">
+    tools:context=".view.activities.DetailedClubActivity">
         <TextView
             android:id="@+id/tv_no_connection_club_details"
             android:layout_width="match_parent"

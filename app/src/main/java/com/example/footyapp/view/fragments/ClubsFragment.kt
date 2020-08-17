@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
-import com.example.footyapp.view.DetailedClubActivity
+import com.example.footyapp.view.activities.DetailedClubActivity
 import kotlinx.android.synthetic.main.clubs_frag_list_layout.*
 
 class ClubsFragment private constructor(): Fragment(){
