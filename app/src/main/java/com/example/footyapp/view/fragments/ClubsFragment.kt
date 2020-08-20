@@ -23,11 +23,6 @@ class ClubsFragment private constructor(): Fragment(){
             ClubsFragment()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +30,11 @@ class ClubsFragment private constructor(): Fragment(){
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.clubs_frag_list_layout,container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
     }
     fun getDataSet(data: List<ClubItem>){
         adapter.dataSet = data

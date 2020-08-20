@@ -7,12 +7,11 @@ import android.util.Log
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
-import com.example.footyapp.network.NetworkConnection
+import com.example.footyapp.model.network.NetworkConnection
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
 import com.example.footyapp.model.LeagueTeamsResponse
-import com.example.footyapp.network.FootyNetworkCall
+import com.example.footyapp.model.network.FootyNetworkCall
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers

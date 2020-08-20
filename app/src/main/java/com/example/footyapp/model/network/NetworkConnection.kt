@@ -1,4 +1,4 @@
-package com.example.footyapp.network
+package com.example.footyapp.model.network
 
 
 import android.content.Context
@@ -61,11 +61,11 @@ class NetworkConnection private constructor(private val context: Context): LiveD
         }
     }
 
-    @Suppress("DEPRECATION")
-    fun updateConnection(){
-        val activeNet: NetworkInfo? =connectivityManager.activeNetworkInfo
-        postValue(activeNet?.isConnected == true)
-    }
+//    @Suppress("DEPRECATION")
+//    fun updateConnection(){
+//        val activeNet: NetworkInfo? =connectivityManager.activeNetworkInfo
+//        postValue(activeNet?.isConnected == true)
+//    }
 
     fun testConnection(l: LifecycleOwner,
                        tv: TextView,

@@ -7,8 +7,8 @@ import android.widget.TextView
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
 import com.example.footyapp.model.IndividualTeamResponse
-import com.example.footyapp.network.FootyNetworkCall
-import com.example.footyapp.network.NetworkConnection
+import com.example.footyapp.model.network.FootyNetworkCall
+import com.example.footyapp.model.network.NetworkConnection
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers

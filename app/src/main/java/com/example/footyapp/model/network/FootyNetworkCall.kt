@@ -1,4 +1,4 @@
-package com.example.footyapp.network
+package com.example.footyapp.model.network
 
 import com.example.footyapp.model.IndividualTeamResponse
 import com.example.footyapp.model.LeagueListResponse

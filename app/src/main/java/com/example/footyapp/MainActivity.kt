@@ -3,11 +3,10 @@ package com.example.footyapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import com.example.footyapp.network.FootyNetworkCall
+import com.example.footyapp.model.network.FootyNetworkCall
 import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.model.LeagueTeamsResponse
-import com.example.footyapp.network.NetworkConnection
+import com.example.footyapp.model.network.NetworkConnection
 import com.example.footyapp.view.fragments.FavoritesFragment
 import com.example.footyapp.view.fragments.ClubsFragment
 import com.example.footyapp.view.fragments.LeaguesFragment
