@@ -13,4 +13,5 @@
     <string name="table_header_goals">Goals</string>
     <string name="table_header_pts">Pts</string>
     <string name="tv_fav_list_favorites">Favorites</string>
+    <string name="club_list_down_arrow">Down Arrow</string>
 </resources>

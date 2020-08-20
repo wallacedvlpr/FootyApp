@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.leagues_frag_list_layout.*
 class LeaguesFragment private constructor(): Fragment(){
 
     private val adapter by lazy {
-        activity?.let { LeagueAdapter(it) }
+        LeagueAdapter()
     }
 
     override fun onCreateView(
@@ -23,6 +23,7 @@ class LeaguesFragment private constructor(): Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        adapter.activity = activity
         return inflater.inflate(R.layout.leagues_frag_list_layout, container, false)
     }
 
@@ -32,7 +33,7 @@ class LeaguesFragment private constructor(): Fragment(){
     }
 
     fun getDataSet(data: List<League>){
-        adapter?.dataSet = data
+        adapter.dataSet = data
     }
 
     private fun initRecyclerView(){

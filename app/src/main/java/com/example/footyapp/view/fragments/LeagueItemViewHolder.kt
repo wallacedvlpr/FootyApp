@@ -12,13 +12,15 @@ import com.example.footyapp.view.activities.LeagueActivity
 class LeagueItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     private val tvLeagueName: TextView
             = itemView.findViewById(R.id.tv_league_name_league_item_layout)
-    fun onBind(l: League, p: Int, fragmentActivity: FragmentActivity){
+    fun onBind(l: League, p: Int, fragmentActivity: FragmentActivity?){
         tvLeagueName.text = l.name
         itemView.setOnClickListener {
-            val newIntent = Intent(fragmentActivity, LeagueActivity::class.java)
-            newIntent.putExtra("League_Id", if (p % 2 == 1) 2012 else 1625)
-            //fragmentActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-            fragmentActivity.startActivity(newIntent)
+            fragmentActivity?.let { activity ->
+                val newIntent = Intent(activity, LeagueActivity::class.java)
+                newIntent.putExtra("League_Id", if (p % 2 == 1) 2012 else 1625)
+                //fragmentActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                activity.startActivity(newIntent)
+            }
         }
     }
 

@@ -25,7 +25,7 @@ class FavoritesFragment private constructor(): Fragment() {
     }
 
     private val adapter by lazy {
-        activity?.let { FavoritesAdapter(it) }
+        FavoritesAdapter()
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +33,7 @@ class FavoritesFragment private constructor(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        adapter.activity = activity
         return inflater.inflate(
             R.layout.favorites_frag_list_layout,
             container,
@@ -47,7 +48,7 @@ class FavoritesFragment private constructor(): Fragment() {
     private fun initRecyclerView(){
         fav_frag_recycler_view.layoutManager = LinearLayoutManager(activity)
         viewModel?.getFavorites()?.observe(viewLifecycleOwner, Observer {
-            adapter?.dataSet  = it
+            adapter.dataSet  = it
         })
         fav_frag_recycler_view.adapter = adapter
     }

@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
-        android:id="@+id/club_detail_club_name"
+        android:id="@+id/club_name_club_item_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +30,8 @@
         android:src="@drawable/arrow_drop_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/club_list_down_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

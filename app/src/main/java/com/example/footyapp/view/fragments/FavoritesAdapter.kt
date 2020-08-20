@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.footyapp.R
 import com.example.footyapp.model.db.Favorite
 
-class FavoritesAdapter (private val activity: FragmentActivity):
+class FavoritesAdapter ():
     RecyclerView.Adapter<FavItemViewHolder>(){
+    var activity: FragmentActivity? = null
     var dataSet: List<Favorite> = listOf()
         set(value) {
             field = value

@@ -13,14 +13,15 @@ import com.example.footyapp.view.activities.DetailedClubActivity
 class FavItemViewHolder(itemView: View):
     RecyclerView.ViewHolder(itemView){
     private val tv: TextView = itemView.findViewById(R.id.tv_name_fav_frag_list_item)
-    fun onBind(c: Favorite, fragmentActivity: FragmentActivity){
+    fun onBind(c: Favorite, fragmentActivity: FragmentActivity?){
         tv.text = c.favName
         itemView.setOnClickListener {
-            Intent()
-            val newIntent = Intent(fragmentActivity, DetailedClubActivity::class.java)
-            newIntent.putExtra("Club_ID", c._id)
-            //fragmentActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-            fragmentActivity.startActivity(newIntent)
+            fragmentActivity?.let { activity ->
+                val newIntent = Intent(activity, DetailedClubActivity::class.java)
+                newIntent.putExtra("Club_ID", c._id)
+                //activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                activity.startActivity(newIntent)
+            }
         }
     }
 }//endOf ItemViewHolder
