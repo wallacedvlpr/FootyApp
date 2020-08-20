@@ -14,8 +14,8 @@ class FavoritesAdapter (private val activity: FragmentActivity):
             field = value
             notifyDataSetChanged()
         }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavItemViewHolder {
-        return FavItemViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavItemViewHolder
+        = FavItemViewHolder(
             LayoutInflater
                 .from(parent.context)
                 .inflate(
@@ -24,7 +24,6 @@ class FavoritesAdapter (private val activity: FragmentActivity):
                     false
                 )
         )
-    }
     override fun getItemCount(): Int = dataSet.size
 
     override fun onBindViewHolder(holder: FavItemViewHolder, position: Int) {
