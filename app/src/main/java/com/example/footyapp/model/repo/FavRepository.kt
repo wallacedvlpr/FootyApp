@@ -1,4 +1,7 @@
-package com.example.footyapp.model.db
+package com.example.footyapp.model.repo
+
+import com.example.footyapp.model.db.Favorite
+import com.example.footyapp.model.db.MockFavDao
 
 class FavRepository private constructor(private val favDao: MockFavDao){
     fun addFavorite(fav: Favorite){
@@ -12,7 +15,9 @@ class FavRepository private constructor(private val favDao: MockFavDao){
 
         fun getInstance(favDao: MockFavDao) =
             instance ?: synchronized(this){
-                instance?: FavRepository(favDao).also { instance = it }
+                instance
+                    ?: FavRepository(favDao)
+                        .also { instance = it }
             }
     }
 }

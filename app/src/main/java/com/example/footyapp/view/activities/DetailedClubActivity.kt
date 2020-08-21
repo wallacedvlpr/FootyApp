@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
-import com.example.footyapp.model.IndividualTeamResponse
+import com.example.footyapp.model.SingleTeamResponse
 import com.example.footyapp.model.network.FootyNetworkCall
 import com.example.footyapp.model.network.NetworkConnection
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -35,14 +35,14 @@ class DetailedClubActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                object : io.reactivex.rxjava3.core.Observer<IndividualTeamResponse> {
+                object : io.reactivex.rxjava3.core.Observer<SingleTeamResponse> {
                     override fun onComplete() {
                     }
 
                     override fun onSubscribe(d: Disposable?) {
                     }
 
-                    override fun onNext(t: IndividualTeamResponse) {
+                    override fun onNext(t: SingleTeamResponse) {
                         initViews(t.data.find { it.season == "2017/2018" && it.season_format == "Domestic League"}?: t.data[0])
                     }
 

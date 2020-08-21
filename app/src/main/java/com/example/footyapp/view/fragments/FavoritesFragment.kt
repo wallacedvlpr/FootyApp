@@ -42,14 +42,18 @@ class FavoritesFragment private constructor(): Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getData()
         initRecyclerView()
     }
 
-    private fun initRecyclerView(){
+    private fun getData(){
         fav_frag_recycler_view.layoutManager = LinearLayoutManager(activity)
         viewModel?.getFavorites()?.observe(viewLifecycleOwner, Observer {
             adapter.dataSet  = it
         })
+    }
+
+    private fun initRecyclerView(){
         fav_frag_recycler_view.adapter = adapter
     }
 

@@ -6,6 +6,6 @@ data class Favorite (
     val type: Char)
 {
     override fun toString(): String {
-        return "$favName - $_id"
+        return "$favName - id: $_id"
     }
 }
