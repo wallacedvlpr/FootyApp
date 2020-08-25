@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/cs">
 
     <TextView
         android:id="@+id/tv_no_connection_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tv_no_internet_connection"
-        android:textSize="18sp"
+        android:textSize="0sp"
         android:padding="2dp"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textStyle="italic"
         android:background="@android:color/holo_red_light"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_no_connection_main"
         android:id="@+id/tab_layout"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

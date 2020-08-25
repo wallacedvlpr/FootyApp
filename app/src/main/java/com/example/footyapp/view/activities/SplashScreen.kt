@@ -12,7 +12,7 @@ import com.example.footyapp.R
 class SplashScreen : AppCompatActivity() {
     //Lets see
     // This is the loading time of the splash screen
-    private val splashTimeOut:Long = 3000 // 1 sec
+    private val splashTimeOut:Long = 3000 // 3 sec
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = Runnable {
         startActivity(Intent(this@SplashScreen, MainActivity::class.java))

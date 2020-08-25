@@ -2,7 +2,6 @@ package com.example.footyapp.view.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,7 @@ import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.viewmodel.FootyViewModel
 import kotlinx.android.synthetic.main.main_fragment_list_layout.*
 
-class LeaguesFragment private constructor(): Fragment(){
-
+class LeaguesFragment: Fragment(){
     private val adapter by lazy {
         LeagueAdapter()
     }
@@ -44,7 +42,6 @@ class LeaguesFragment private constructor(): Fragment(){
     private fun getData(){
         viewModel.getLeagues()
             .observe(viewLifecycleOwner, Observer { response ->
-                Log.d("LiveData", response.data[0].name)
                 adapter.dataSet = response.data
             })
     }

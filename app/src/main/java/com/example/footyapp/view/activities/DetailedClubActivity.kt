@@ -3,35 +3,57 @@ package com.example.footyapp.view.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
 import com.example.footyapp.model.SingleTeamResponse
 import com.example.footyapp.model.network.FootyNetworkCall
-import com.example.footyapp.model.network.NetworkConnection
+import com.example.footyapp.utils.InjectorUtils
+import com.example.footyapp.utils.LiveDataConnection
+import com.example.footyapp.viewmodel.FootyViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detailed_club.*
 
 class DetailedClubActivity : AppCompatActivity() {
-    //lateinit var club: List<ClubItem>
+
+    private val factory = InjectorUtils.provideFootyViewModelFactory()
+    private val liveDataConnection by lazy {
+        LiveDataConnection.getInstance(applicationContext)
+    }
+    private val viewModel by viewModels<FootyViewModel>{
+        factory
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_club)
-        testConnection()
+        onConnected()
     }
 
+    private fun onConnected(){
+        liveDataConnection.isConnected().observe(this, Observer{
+            showViews(it)
+        })
+    }
 
-    private fun testConnection(){
+    private fun showViews(bool: Boolean) {
+        if(bool){
+            tv_no_connection_club_details.visibility = View.INVISIBLE
+            tv_no_connection_club_details.setTextSize(TypedValue.COMPLEX_UNIT_SP, 0F)
+            init()
+        }else {
+            tv_no_connection_club_details.visibility = View.VISIBLE
+            tv_no_connection_club_details.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
+        }
+    }
+    private fun netCall(){
         val id = intent.getIntExtra("Club_ID", 59)
-        val networkConnection = NetworkConnection.getInstance(applicationContext)
-        networkConnection?.testConnection(this,
-            tv_no_connection_club_details
-        ) { init(id) }
-    }
-    private fun netCall(_id: Int){
-        FootyNetworkCall.getRetrofit().getOneTeam(id = _id)
+        FootyNetworkCall.getRetrofit().getOneTeam(id = id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -52,8 +74,8 @@ class DetailedClubActivity : AppCompatActivity() {
                 }
             )
     }
-    private fun init(i: Int) {
-        netCall(i)
+    private fun init() {
+        netCall()
     }
 
     private fun initViews(club: ClubItem){
@@ -77,5 +99,9 @@ class DetailedClubActivity : AppCompatActivity() {
         club_detail_losses.text = stringLosses
         club_detail_wins.text = stringWins
         club_detail_draws.text = stringDraws
+    }
+    override fun onStop() {
+        liveDataConnection.unregisterCallBack()
+        super.onStop()
     }
 }

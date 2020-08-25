@@ -14,7 +14,7 @@ import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.viewmodel.FootyViewModel
 import kotlinx.android.synthetic.main.main_fragment_list_layout.*
 
-class ClubsFragment private constructor(): Fragment(){
+class ClubsFragment: Fragment(){
     private val adapter by lazy {
         ClubAdapter()
     }

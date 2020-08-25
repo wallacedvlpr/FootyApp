@@ -1,5 +1,6 @@
 package com.example.footyapp.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.footyapp.model.repo.FootyRepository

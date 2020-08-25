@@ -7,12 +7,11 @@ import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.model.LeagueTeamsResponse
 import com.example.footyapp.model.network.NetCalls
 
-class FootyRepository private constructor(private val netCalls: NetCalls ) {
+class FootyRepository private constructor(private val netCalls: NetCalls) {
 
     fun getTeams():LiveData<LeagueTeamsResponse> = netCalls.getTeams()
     fun getOneTeam(id: Int): LiveData<SingleTeamResponse>  = netCalls.getOneTeam(id)
     fun getLeagues(): LiveData<LeagueListResponse>  = netCalls.getLeagues()
-
     // Single Instance of this class
     companion object{
         @Volatile private var instance: FootyRepository? = null

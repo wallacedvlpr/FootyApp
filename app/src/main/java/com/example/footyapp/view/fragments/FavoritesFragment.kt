@@ -14,7 +14,7 @@ import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.viewmodel.FavoritesViewModel
 import kotlinx.android.synthetic.main.favorites_frag_list_layout.*
 
-class FavoritesFragment private constructor(): Fragment() {
+class FavoritesFragment: Fragment() {
 
     private val factory = InjectorUtils.provideFavoritesViewModelFactory()
     private val viewModel by lazy {
