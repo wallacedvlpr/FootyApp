@@ -37,9 +37,9 @@ class NetCalls private constructor(){
         return mLiveData
     }
 
-    fun getTeams(): MutableLiveData<LeagueTeamsResponse>{
+    fun getTeams(id: Int = 2012): MutableLiveData<LeagueTeamsResponse>{
         val mLiveData = MutableLiveData<LeagueTeamsResponse>()
-        FootyNetworkCall.getRetrofit().getTeams(season_id = 2012)
+        FootyNetworkCall.getRetrofit().getTeams(season_id = id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

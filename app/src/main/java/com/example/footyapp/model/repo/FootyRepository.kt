@@ -9,7 +9,7 @@ import com.example.footyapp.model.network.NetCalls
 
 class FootyRepository private constructor(private val netCalls: NetCalls) {
 
-    fun getTeams():LiveData<LeagueTeamsResponse> = netCalls.getTeams()
+    fun getTeams(id: Int = 2012):LiveData<LeagueTeamsResponse> = netCalls.getTeams(id)
     fun getOneTeam(id: Int): LiveData<SingleTeamResponse>  = netCalls.getOneTeam(id)
     fun getLeagues(): LiveData<LeagueListResponse>  = netCalls.getLeagues()
     // Single Instance of this class

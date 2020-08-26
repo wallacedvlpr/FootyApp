@@ -39,7 +39,7 @@ interface FootyNetworkCall {
     fun getTeams(
         @Query(value = "key")key: String="example",
         @Query(value = "season_id")season_id: Int,
-        @Query(value= "include")include:String ="stats"): Observable<LeagueTeamsResponse>
+        @Query(value= "include")include: String ="stats"): Observable<LeagueTeamsResponse>
 
     /**
      * League Team

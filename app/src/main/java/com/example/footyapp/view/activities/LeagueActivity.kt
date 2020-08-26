@@ -60,28 +60,15 @@ class LeagueActivity : AppCompatActivity(){
     }
     private fun netCall(){
         val id = intent.getIntExtra("League_Id", 2012)
-        FootyNetworkCall.getRetrofit().getTeams(season_id = id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                object : io.reactivex.rxjava3.core.Observer<LeagueTeamsResponse> {
-                    override fun onComplete() {
-                    }
 
-                    override fun onSubscribe(d: Disposable?) {
-                    }
-
-                    override fun onNext(t: LeagueTeamsResponse) {
-                        clubs = t.data.sortedWith(compareBy { it.table_position})
-                        initTableLayout()
-                        initTableName("${t.data[0].country}'s Top League ")
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        Log.e("League Activity", e?.message?:"Error but null")
-                    }
-                }
-            )
+        viewModel.getTeams(id).observe(
+            this,
+            Observer{ response->
+                clubs = response.data.sortedWith(compareBy { it.table_position})
+                initTableLayout()
+                initTableName("${response.data[0].country}'s Tier 1 League ")
+            }
+        )
     }
     private fun init() {
         netCall()
