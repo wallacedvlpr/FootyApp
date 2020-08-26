@@ -64,7 +64,7 @@ class DetailedClubActivity : AppCompatActivity() {
     private fun find2017DomesticSeason(clubs: List<ClubItem>):ClubItem {
         return clubs.find {
             it.season == "2017/2018" && it.season_format == "Domestic League"
-        } ?: clubs[0]
+        } ?: clubs[0] // null return first available season for the club
     }
     private fun initViews(club: ClubItem){
         club_detail_club_name.text = club.full_name
