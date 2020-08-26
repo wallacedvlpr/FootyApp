@@ -53,53 +53,44 @@ class DetailedClubActivity : AppCompatActivity() {
     }
     private fun netCall(){
         val id = intent.getIntExtra("Club_ID", 59)
-        FootyNetworkCall.getRetrofit().getOneTeam(id = id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                object : io.reactivex.rxjava3.core.Observer<SingleTeamResponse> {
-                    override fun onComplete() {
-                    }
-
-                    override fun onSubscribe(d: Disposable?) {
-                    }
-
-                    override fun onNext(t: SingleTeamResponse) {
-                        initViews(t.data.find { it.season == "2017/2018" && it.season_format == "Domestic League"}?: t.data[0])
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        Log.d("Home", e?.message?:"Error but null")
-                    }
-                }
-            )
+        viewModel.getOneTeam(id).observe(this, Observer {response ->
+            initViews(find2017DomesticSeason(response.data))
+        })
     }
     private fun init() {
         netCall()
     }
 
+    private fun find2017DomesticSeason(clubs: List<ClubItem>):ClubItem {
+        return clubs.find {
+            it.season == "2017/2018" && it.season_format == "Domestic League"
+        } ?: clubs[0]
+    }
     private fun initViews(club: ClubItem){
-        val name: TextView = findViewById(R.id.club_detail_club_name)
-        val founded: TextView = findViewById(R.id.club_detail_founded)
-        val country: TextView = findViewById(R.id.club_detail_country)
-        val season: TextView = findViewById(R.id.club_detail_season)
+        club_detail_club_name.text = club.full_name
 
-        name.text = club.full_name
         val stringFounded = ", est. ${club.founded}"
-        founded.text = stringFounded
+        club_detail_founded.text = stringFounded
+
         val stringCountry = "Country: ${club.country}"
-        country.text = stringCountry
+        club_detail_country.text = stringCountry
+
         val stringSeason = "${club.season} Season"
-        season.text = stringSeason
+        club_detail_season.text = stringSeason
+
         val stringPos = "Table Position: ${club.table_position}"
         club_detail_table_position.text =  stringPos
+
         val stringDraws = "D: ${club.stats.seasonDrawsNum_overall}"
+        club_detail_draws.text = stringDraws
+
         val stringWins= "Wins: ${club.stats.seasonWinsNum_overall}"
+        club_detail_wins.text = stringWins
+
         val stringLosses = "Losses: ${club.stats.seasonLossesNum_overall}"
         club_detail_losses.text = stringLosses
-        club_detail_wins.text = stringWins
-        club_detail_draws.text = stringDraws
     }
+
     override fun onStop() {
         liveDataConnection.unregisterCallBack()
         super.onStop()
