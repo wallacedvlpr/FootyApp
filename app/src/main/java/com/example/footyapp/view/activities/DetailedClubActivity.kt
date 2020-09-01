@@ -2,29 +2,24 @@ package com.example.footyapp.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
-import com.example.footyapp.model.SingleTeamResponse
-import com.example.footyapp.model.network.FootyNetworkCall
 import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.utils.LiveDataConnection
 import com.example.footyapp.viewmodel.FootyViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detailed_club.*
 
 class DetailedClubActivity : AppCompatActivity() {
 
-    private val factory = InjectorUtils.provideFootyViewModelFactory()
+    private val factory by lazy {
+        InjectorUtils.provideFootyViewModelFactory(applicationContext)
+    }
     private val liveDataConnection by lazy {
-        LiveDataConnection.getInstance(applicationContext)
+        LiveDataConnection.getInstance(this)
     }
     private val viewModel by viewModels<FootyViewModel>{
         factory
@@ -36,7 +31,8 @@ class DetailedClubActivity : AppCompatActivity() {
     }
 
     private fun onConnected(){
-        liveDataConnection.isConnected().observe(this, Observer{
+        //liveDataConnection.registerCallBack()
+        liveDataConnection.isConnectionLive().observe(this, Observer{
             showViews(it)
         })
     }
@@ -92,7 +88,7 @@ class DetailedClubActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        liveDataConnection.unregisterCallBack()
+        //liveDataConnection.unregisterCallBack()
         super.onStop()
     }
 }

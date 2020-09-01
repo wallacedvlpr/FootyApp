@@ -19,18 +19,30 @@ import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var leaguesFragment: LeaguesFragment
+    lateinit var clubsFragment: ClubsFragment
+    lateinit var favoritesFragment: FavoritesFragment
+    private val factory by lazy {
+        InjectorUtils.provideFootyViewModelFactory(applicationContext)
+    }
+    private val viewModel by viewModels<FootyViewModel>{
+        factory
+    }
     private val liveDataConnection by lazy {
-        LiveDataConnection.getInstance(applicationContext)
+        LiveDataConnection.getInstance(this)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        leaguesFragment = LeaguesFragment.newInstance()
+        clubsFragment = ClubsFragment.newInstance()
+        favoritesFragment = FavoritesFragment.newInstance()
         onConnected()
     }
 
     private fun onConnected(){
-        liveDataConnection.isConnected().observe(this, Observer{
+        liveDataConnection.registerCallBack()
+        liveDataConnection.isConnectionLive().observe(this, Observer{
             showViews(it)
         })
     }
@@ -47,11 +59,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init(){
+        getData()
         pager.adapter = ViewPagerAdapter(
             this,
-            LeaguesFragment.newInstance(),
-            ClubsFragment.newInstance(),
-            FavoritesFragment.newInstance()
+            leaguesFragment,
+            clubsFragment,
+            favoritesFragment
         )
         pager.isUserInputEnabled = false
         TabLayoutMediator(tab_layout, pager,
@@ -71,8 +84,20 @@ class MainActivity : AppCompatActivity() {
             }).attach()
     }
 
+    private fun getData() {
+        viewModel.getTeams()
+            .observe(this, Observer { TeamsResponse ->
+                clubsFragment.getData(TeamsResponse.data)
+            })
+        viewModel.getLeagues()
+            .observe(this, Observer { response ->
+                leaguesFragment.getData(response.data)
+            })
+
+    }
+
     override fun onStop() {
-        liveDataConnection.unregisterCallBack()
+        //liveDataConnection.unregisterCallBack()
         super.onStop()
     }
     override fun onBackPressed() {

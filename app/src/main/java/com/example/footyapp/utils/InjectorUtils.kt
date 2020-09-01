@@ -1,5 +1,7 @@
 package com.example.footyapp.utils
 
+import android.app.Application
+import android.content.Context
 import com.example.footyapp.model.repo.FavRepository
 import com.example.footyapp.model.db.MockFavDatabase
 import com.example.footyapp.model.network.NetCalls
@@ -13,8 +15,8 @@ object InjectorUtils {
         return FavoritesViewModelFactory(favRepository)
     }
 
-    fun provideFootyViewModelFactory(): FootyViewModelFactory{
-        val footyRepository = FootyRepository.getInstance(NetCalls.getInstance())
+    fun provideFootyViewModelFactory(context: Context): FootyViewModelFactory{
+        val footyRepository = FootyRepository.getInstance(NetCalls.getInstance(context))
         return FootyViewModelFactory(footyRepository)
     }
 }

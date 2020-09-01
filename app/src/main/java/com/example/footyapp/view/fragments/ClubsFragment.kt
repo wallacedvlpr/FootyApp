@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footyapp.R
+import com.example.footyapp.model.ClubItem
 import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.viewmodel.FootyViewModel
 import kotlinx.android.synthetic.main.main_fragment_list_layout.*
@@ -18,11 +19,6 @@ class ClubsFragment: Fragment(){
     private val adapter by lazy {
         ClubAdapter()
     }
-    private val factory = InjectorUtils.provideFootyViewModelFactory()
-    private val viewModel by viewModels<FootyViewModel>{
-        factory
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,16 +31,11 @@ class ClubsFragment: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getData()
         initViews()
     }
 
-    private fun getData(){
-        viewModel.getTeams()
-            .observe(viewLifecycleOwner, Observer { response ->
-                adapter.dataSet = response.data
-
-            })
+    fun getData(list: List<ClubItem>){
+        adapter.dataSet = list
     }
 
     private fun initViews(){

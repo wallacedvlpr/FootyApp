@@ -6,21 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.footyapp.R
-import com.example.footyapp.utils.InjectorUtils
-import com.example.footyapp.viewmodel.FootyViewModel
+import com.example.footyapp.model.League
 import kotlinx.android.synthetic.main.main_fragment_list_layout.*
 
 class LeaguesFragment: Fragment(){
     private val adapter by lazy {
         LeagueAdapter()
-    }
-    private val factory = InjectorUtils.provideFootyViewModelFactory()
-    private val viewModel by viewModels<FootyViewModel>{
-        factory
     }
 
     override fun onCreateView(
@@ -35,15 +28,11 @@ class LeaguesFragment: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getData()
         initViews()
     }
 
-    private fun getData(){
-        viewModel.getLeagues()
-            .observe(viewLifecycleOwner, Observer { response ->
-                adapter.dataSet = response.data
-            })
+    fun getData(list: List<League>) {
+        adapter.dataSet = list
     }
     private fun initViews(){
         val title = "Leagues"
