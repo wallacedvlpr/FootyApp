@@ -1,14 +1,14 @@
 package com.example.footyapp.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.footyapp.model.repo.FavRepository
 
-class FavoritesViewModelFactory(private val favRepository: FavRepository)
+class FavoritesViewModelFactory(private val application: Application)
     :ViewModelProvider.NewInstanceFactory(){
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return FavoritesViewModel(favRepository) as T
+        return FavoritesViewModel(application) as T
     }
 }

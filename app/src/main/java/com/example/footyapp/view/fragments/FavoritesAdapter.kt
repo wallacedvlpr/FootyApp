@@ -6,15 +6,18 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footyapp.R
 import com.example.footyapp.model.db.Favorite
+import com.example.footyapp.view.IListener
 
-class FavoritesAdapter ():
+class FavoritesAdapter:
     RecyclerView.Adapter<FavItemViewHolder>(){
     var activity: FragmentActivity? = null
-    var dataSet: List<Favorite> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    var dataSet = emptyList<Favorite>()
+    private var listener: IListener? = null
+
+    fun setData(favorites: List<Favorite>){
+        dataSet = favorites
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavItemViewHolder
         = FavItemViewHolder(
             LayoutInflater
@@ -26,8 +29,10 @@ class FavoritesAdapter ():
                 )
         )
     override fun getItemCount(): Int = dataSet.size
-
+    fun setListener(listener: IListener?){
+        this.listener = listener
+    }
     override fun onBindViewHolder(holder: FavItemViewHolder, position: Int) {
-        holder.onBind(dataSet[position], activity)
+        holder.onBind(dataSet[position], activity, listener!!::deleteFavorite)
     }
 }//endOf Adapter Class

@@ -6,62 +6,22 @@ import androidx.lifecycle.MutableLiveData
 import com.example.footyapp.model.SingleTeamResponse
 import com.example.footyapp.model.LeagueListResponse
 import com.example.footyapp.model.LeagueTeamsResponse
-import com.example.footyapp.utils.CustomApp
-import com.example.footyapp.utils.LiveDataConnection
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.Cache
-import okhttp3.CacheControl
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
-import java.util.concurrent.TimeUnit
 
-class NetCalls private constructor(context: Context){
+class NetCalls private constructor(){
     private val baseURL = "https://api.footystats.org/"
-    private val cacheSize = (5 * 1024 * 1024).toLong() // 5 MB
-    private val cache = Cache(context.cacheDir, cacheSize)
-
-    private val networkCacheInterceptor = Interceptor{ chain ->
-        var request = chain.request()
-
-        request = if(LiveDataConnection.getInstance(CustomApp.footyContext!!)
-                .isConnected()) {
-            val cacheControl = CacheControl.Builder()
-                .maxAge(5, TimeUnit.SECONDS)
-                .build()
-            request.newBuilder().header("Cache-Control",
-                cacheControl.toString())
-                .build()
-        }
-        else {
-            val cacheControl = CacheControl.Builder()
-                .maxStale(7, TimeUnit.DAYS)
-                .onlyIfCached()
-                .build()
-            request.newBuilder().header("Cache-Control", cacheControl.toString())
-                .build()
-        }
-        chain.proceed(request)
-    }
-    private val httpClient = OkHttpClient.Builder()
-        .cache(cache)
-        .addNetworkInterceptor(networkCacheInterceptor)
-        .build()
 
     private fun getRetrofit(): FootyNetworkCall {
         return Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(httpClient)
             .build().create(FootyNetworkCall::class.java)
     }
 
@@ -71,21 +31,23 @@ class NetCalls private constructor(context: Context){
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                object : Observer<Response<LeagueListResponse>> {
+                object : Observer<LeagueListResponse> {
                     override fun onComplete() {
                     }
 
                     override fun onSubscribe(d: Disposable?) {
                     }
 
-                    override fun onNext(t: Response<LeagueListResponse>) {
-                        if (t.raw().cacheResponse != null) {
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from cache")
-                        }else if (t.raw().networkResponse != null){
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from Network")
-                        }
+                    override fun onNext(t: LeagueListResponse) {
+                        Log.d("test", "Hello")
+                        mLiveData.value = t
+//                        if (t.raw().cacheResponse != null) {
+//                            mLiveData.value = t.body()
+//                            Log.d("Network", "response came from cache")
+//                        }else {
+//                            mLiveData.value = t.body()
+//                            Log.d("Network", "response came from Network")
+//                        }
 
                     }
 
@@ -103,21 +65,15 @@ class NetCalls private constructor(context: Context){
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                object : Observer<Response<LeagueTeamsResponse>> {
+                object : Observer<LeagueTeamsResponse>{
                     override fun onComplete() {
                     }
 
                     override fun onSubscribe(d: Disposable?) {
                     }
 
-                    override fun onNext(t: Response<LeagueTeamsResponse>) {
-                        if (t.raw().cacheResponse != null) {
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from cache")
-                        }else if (t.raw().networkResponse != null){
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from Network")
-                        }
+                    override fun onNext(t: LeagueTeamsResponse) {
+                        mLiveData.value = t
                     }
 
                     override fun onError(e: Throwable?) {
@@ -134,21 +90,15 @@ class NetCalls private constructor(context: Context){
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                object : Observer <Response<SingleTeamResponse>>{
+                object : Observer <SingleTeamResponse>{
                     override fun onComplete() {
                     }
 
                     override fun onSubscribe(d: Disposable?) {
                     }
 
-                    override fun onNext(t: Response<SingleTeamResponse>) {
-                        if (t.raw().cacheResponse != null) {
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from cache")
-                        }else if (t.raw().networkResponse != null){
-                            mLiveData.value = t.body()
-                            Log.d("Network", "response came from Network")
-                        }
+                    override fun onNext(t: SingleTeamResponse) {
+                        mLiveData.value = t
                     }
 
                     override fun onError(e: Throwable?) {
@@ -163,9 +113,40 @@ class NetCalls private constructor(context: Context){
     companion object{
         @Volatile private var instance: NetCalls? = null
 
-        fun getInstance(context: Context) =
+        fun getInstance() =
             instance ?: synchronized(this){
-                instance ?: NetCalls(context).also { instance = it }
+                instance ?: NetCalls().also { instance = it }
             }
     }
+
+//    private val cacheSize = (5 * 1024 * 1024).toLong() // 5 MB
+//    private val cache = Cache(context.cacheDir, cacheSize)
+//
+//    private val networkCacheInterceptor = Interceptor{ chain ->
+//        var request = chain.request()
+//
+//        request = if(LiveDataConnection.getInstance(CustomApp.footyContext!!)
+//                .isConnected()) {
+//            val cacheControl = CacheControl.Builder()
+//                .maxAge(5, TimeUnit.SECONDS)
+//                .build()
+//            request.newBuilder().header("Cache-Control",
+//                cacheControl.toString())
+//                .build()
+//        }
+//        else {
+//            val cacheControl = CacheControl.Builder()
+//                .maxStale(7, TimeUnit.DAYS)
+//                .onlyIfCached()
+//                .build()
+//            request.newBuilder().header("Cache-Control", cacheControl.toString())
+//                .build()
+//        }
+//        chain.proceed(request)
+//    }
+//    private val httpClient = OkHttpClient.Builder()
+//        .cache(cache)
+//        .addNetworkInterceptor(networkCacheInterceptor)
+//        .build()
+
 }

@@ -34,7 +34,7 @@ class ClubsFragment: Fragment(){
         initViews()
     }
 
-    fun getData(list: List<ClubItem>){
+    fun setData(list: List<ClubItem>){
         adapter.dataSet = list
     }
 

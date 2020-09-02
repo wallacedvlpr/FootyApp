@@ -6,25 +6,33 @@ import android.util.TypedValue
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.footyapp.model.db.Favorite
 import com.example.footyapp.utils.LiveDataConnection
 import com.example.footyapp.utils.InjectorUtils
+import com.example.footyapp.view.IListener
 import com.example.footyapp.view.fragments.FavoritesFragment
 import com.example.footyapp.view.fragments.ClubsFragment
 import com.example.footyapp.view.fragments.LeaguesFragment
 import com.example.footyapp.view.ViewPager.ViewPagerAdapter
+import com.example.footyapp.viewmodel.FavoritesViewModel
 import com.example.footyapp.viewmodel.FootyViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IListener {
     lateinit var leaguesFragment: LeaguesFragment
     lateinit var clubsFragment: ClubsFragment
     lateinit var favoritesFragment: FavoritesFragment
-    private val factory by lazy {
-        InjectorUtils.provideFootyViewModelFactory(applicationContext)
+
+    private val factory2  by lazy {
+        InjectorUtils.provideFavoritesViewModelFactory(application)
     }
+    private val favViewModel by viewModels<FavoritesViewModel> {
+        factory2
+    }
+    private val factory = InjectorUtils.provideFootyViewModelFactory()
     private val viewModel by viewModels<FootyViewModel>{
         factory
     }
@@ -67,41 +75,47 @@ class MainActivity : AppCompatActivity() {
             favoritesFragment
         )
         pager.isUserInputEnabled = false
-        TabLayoutMediator(tab_layout, pager,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                when(position){
-                    0-> {
-                        tab.text = "Leagues"
-                    }
-                    1-> {
-                        tab.text = "Clubs"
-                    }
-                    2-> {
-                        tab.text = "Favorites"
-                    }
-                    else ->   Exception("Error in the TabLayout").printStackTrace()
+        TabLayoutMediator(tab_layout, pager, TabLayoutMediator.TabConfigurationStrategy
+        { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Leagues"
                 }
-            }).attach()
+                1 -> {
+                    tab.text = "Clubs"
+                }
+                2 -> {
+                    tab.text = "Favorites"
+                }
+                else -> Exception("Error in the TabLayout").printStackTrace()
+            }
+        }).attach()
     }
 
     private fun getData() {
+
         viewModel.getTeams()
-            .observe(this, Observer { TeamsResponse ->
-                clubsFragment.getData(TeamsResponse.data)
+            .observe(this, Observer{ TeamsResponse ->
+                clubsFragment.setData(TeamsResponse.data)
             })
         viewModel.getLeagues()
-            .observe(this, Observer { response ->
-                leaguesFragment.getData(response.data)
+            .observe(this, Observer{ response ->
+                leaguesFragment.setData(response.data)
             })
+        favViewModel.allFavorites.observe(this, Observer{ list ->
+            list?.let {
+                favoritesFragment.setData(it)
+            }
+        })
 
     }
 
-    override fun onStop() {
-        //liveDataConnection.unregisterCallBack()
-        super.onStop()
-    }
     override fun onBackPressed() {
         finish()
         super.onBackPressed()
+    }
+
+    override fun deleteFavorite(favorite: Favorite) {
+        favViewModel.deleteFavorite(favorite)
     }
 }

@@ -8,22 +8,30 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.footyapp.R
 import com.example.footyapp.model.ClubItem
+import com.example.footyapp.model.db.Favorite
 import com.example.footyapp.utils.InjectorUtils
 import com.example.footyapp.utils.LiveDataConnection
+import com.example.footyapp.viewmodel.FavoritesViewModel
 import com.example.footyapp.viewmodel.FootyViewModel
 import kotlinx.android.synthetic.main.activity_detailed_club.*
 
 class DetailedClubActivity : AppCompatActivity() {
 
-    private val factory by lazy {
-        InjectorUtils.provideFootyViewModelFactory(applicationContext)
+    private val factory2 by lazy {
+        InjectorUtils.provideFavoritesViewModelFactory(application)
     }
+    private val favViewModel by viewModels<FavoritesViewModel>{
+        factory2
+    }
+    private val factory = InjectorUtils.provideFootyViewModelFactory()
     private val liveDataConnection by lazy {
         LiveDataConnection.getInstance(this)
     }
     private val viewModel by viewModels<FootyViewModel>{
         factory
     }
+    var id: Int = 0
+    lateinit var club: ClubItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed_club)
@@ -31,7 +39,6 @@ class DetailedClubActivity : AppCompatActivity() {
     }
 
     private fun onConnected(){
-        //liveDataConnection.registerCallBack()
         liveDataConnection.isConnectionLive().observe(this, Observer{
             showViews(it)
         })
@@ -48,21 +55,22 @@ class DetailedClubActivity : AppCompatActivity() {
         }
     }
     private fun netCall(){
-        val id = intent.getIntExtra("Club_ID", 59)
+        id = intent.getIntExtra("Club_ID", 59)
         viewModel.getOneTeam(id).observe(this, Observer {response ->
-            initViews(find2017DomesticSeason(response.data))
+            club =findSeason(response.data)
+            initViews()
         })
     }
     private fun init() {
         netCall()
     }
 
-    private fun find2017DomesticSeason(clubs: List<ClubItem>):ClubItem {
+    private fun findSeason(clubs: List<ClubItem>):ClubItem {
         return clubs.find {
             it.season == "2017/2018" && it.season_format == "Domestic League"
         } ?: clubs[0] // null return first available season for the club
     }
-    private fun initViews(club: ClubItem){
+    private fun initViews(){
         club_detail_club_name.text = club.full_name
 
         val stringFounded = ", est. ${club.founded}"
@@ -85,10 +93,16 @@ class DetailedClubActivity : AppCompatActivity() {
 
         val stringLosses = "Losses: ${club.stats.seasonLossesNum_overall}"
         club_detail_losses.text = stringLosses
+
+        btn_add_to_favorites.setOnClickListener {
+            addToFavorites()
+        }
     }
 
-    override fun onStop() {
-        //liveDataConnection.unregisterCallBack()
-        super.onStop()
+    fun addToFavorites() {
+        favViewModel.addFavorites(
+            Favorite(id, club.full_name, 't')
+        )
+        finish()
     }
 }

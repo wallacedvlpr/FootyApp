@@ -12,4 +12,5 @@
     <string name="table_header_pts">Pts</string>
     <string name="tv_fav_list_favorites">Favorites</string>
     <string name="club_list_down_arrow">Down Arrow</string>
+    <string name="btn_add_to_favorites">Add To Favorites</string>
 </resources>

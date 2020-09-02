@@ -15,7 +15,8 @@ class ClubItemViewHolder(itemView: View):
     private val tvClubName: TextView
             = itemView.findViewById(R.id.club_name_club_item_layout)
 
-    fun onBind(c: ClubItem, fragmentActivity: FragmentActivity?){
+    fun onBind(c: ClubItem,
+               fragmentActivity: FragmentActivity? ){
 
         tvClubName.text = c.english_name
 

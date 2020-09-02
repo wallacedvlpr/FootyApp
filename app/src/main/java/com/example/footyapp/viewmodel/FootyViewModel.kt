@@ -10,8 +10,4 @@ class FootyViewModel (private val footyRepository: FootyRepository
     fun getTeams(id: Int = 2012) = footyRepository.getTeams(id)
     fun getOneTeam(id: Int) = footyRepository.getOneTeam(id)
     fun getLeagues() = footyRepository.getLeagues()
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

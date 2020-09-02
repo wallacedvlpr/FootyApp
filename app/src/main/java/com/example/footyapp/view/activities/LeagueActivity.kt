@@ -25,10 +25,7 @@ class LeagueActivity : AppCompatActivity(){
         LiveDataConnection.getInstance(this)
     }
 
-    private val factory by lazy {
-        InjectorUtils.provideFootyViewModelFactory(applicationContext)
-    }
-
+    private val factory = InjectorUtils.provideFootyViewModelFactory()
 
     private val viewModel by viewModels<FootyViewModel>{
         factory

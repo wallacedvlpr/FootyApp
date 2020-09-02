@@ -31,8 +31,9 @@ class LeaguesFragment: Fragment(){
         initViews()
     }
 
-    fun getData(list: List<League>) {
+    fun setData(list: List<League>) {
         adapter.dataSet = list
+
     }
     private fun initViews(){
         val title = "Leagues"

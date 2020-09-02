@@ -11,6 +11,7 @@ import com.example.footyapp.model.ClubItem
 class ClubAdapter:
     RecyclerView.Adapter<ClubItemViewHolder>(){
 
+
     var activity: FragmentActivity? = null
     var dataSet: List<ClubItem> = emptyList()
         set(value) {
